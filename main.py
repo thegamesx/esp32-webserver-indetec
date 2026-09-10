@@ -1,8 +1,20 @@
 def webpage():
-    html = None
+    html = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Pagina de prueba</title>
+        </head>
+        <body>
+            <h1>Hola mundo!</h1>
+        </body>
+        </html>
+        """
     return html
 
-s = socket.socket(socket.AF.INET, socket.SOCK_STREAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('',80))
 s.listen(5)
 
