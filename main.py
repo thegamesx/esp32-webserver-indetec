@@ -24,6 +24,30 @@ def webpage():
         '''
     return html
 
+def obtener_parametros(request):
+    try:
+        request = request.decode('utf-8')
+    except:
+        pass
+
+    lineas = request.split('\r\n')
+    linea_correcta = None
+    for linea in lineas:
+        if '/update?' in linea:
+            linea_correcta = linea
+            break
+
+    if not linea_correcta:
+        return {}
+    
+    query = linea_correcta.split('/update?', 1)[1]
+    parametros = {}
+    for par in query.split('&'):
+        if '=' in par:
+            clave, valor = par.split('=', 1)
+            parametros[clave] = valor
+    return parametros
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('',80))
 s.listen(5)

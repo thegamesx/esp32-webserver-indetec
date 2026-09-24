@@ -3,12 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina de prueba</title>
+    <title>ESP32 Webserver</title>
+    <style>
+        html {
+            text-align: center;
+            font-family: Helvetica;
+            background-color: darkgray;
+        }
+        h1 {
+            color: blue;
+            padding: 1vh;
+        }
+        label {
+            display: block;
+        }
+        #boton-enviar {
+            background-color: blue;
+            border: none;
+            color: white;
+            padding: 12px 28px;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 2px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Prender un LED</h1>
-    <p>Estado:<strong></strong></p>
-    <a href="/?led=on"><button>ON</button></a>
-    <a href="/?led=off"><button>OFF</button></a>
+    <h1>ESP32 Webserver</h1>
+    <label>
+        <input type="checkbox" value="led1" class="led-checkbox">
+        LED 1
+    </label>
+    <br />
+    <label>
+        <input type="checkbox" value="led2" class="led-checkbox">
+        LED 2
+    </label>
+    <br />
+    <label>
+        <input type="checkbox" value="led3" class="led-checkbox">
+        LED 3
+    </label>
+    <br />
+    <input id="boton-enviar" type="submit" value="Enviar">
+    <script>
+        document.getElementById('boton-enviar').onclick = (event) => {
+            event.preventDefault();
+
+            const checkboxes = document.querySelectorAll('.led-checkbox');
+            let ledsSeleccionados= ''
+
+            checkboxes.forEach((checkbox) => {
+                if (checkbox.checked) {
+                    ledsSeleccionados += checkbox.value + '=1&'
+                } else {
+                    ledsSeleccionados += checkbox.value + '=0&'
+                };
+            });
+            ledsSeleccionados = ledsSeleccionados.slice(0, -1);
+
+            const url = windows.location.href.split('/update?')[0];
+            document.location.href = url + '/update?' + ledsSeleccionados;
+        }
+
+    </script>
 </body>
 </html>
